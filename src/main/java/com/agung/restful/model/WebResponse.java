@@ -20,5 +20,6 @@ public class WebResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String errors;
 }

@@ -2,6 +2,7 @@ package com.agung.restful.service;
 
 import com.agung.restful.entity.User;
 import com.agung.restful.model.RegisterUserRequest;
+import com.agung.restful.model.UserResponse;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class UserService {
         user.setName(request.getName());
 
         userRepository.save(user);
+    }
+
+    public UserResponse get(User user){
+        return UserResponse.builder()
+                .username(user.getUsername())
+                .name(user.getName())
+                .build();
     }
 
 }
