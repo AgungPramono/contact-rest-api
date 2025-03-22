@@ -23,5 +23,6 @@ public class WebResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String errors;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private PagingResponse paging;
 }
