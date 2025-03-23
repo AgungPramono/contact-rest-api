@@ -1,10 +1,10 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.entity.User;
-import com.agung.restful.model.AddressResponse;
-import com.agung.restful.model.CreateAddressRequest;
-import com.agung.restful.model.UpdateAddressRequest;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.response.AddressResponse;
+import com.agung.restful.model.request.CreateAddressRequest;
+import com.agung.restful.model.request.UpdateAddressRequest;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

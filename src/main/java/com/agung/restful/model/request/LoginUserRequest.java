@@ -1,6 +1,6 @@
-package com.agung.restful.model;
+package com.agung.restful.model.request;
 
-import jakarta.validation.constraints.Email;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,19 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateContactRequest {
+public class LoginUserRequest {
 
     @NotBlank
     @Size(max = 100)
-    private String firstName;
+    @JsonProperty("username")
+    private String userName;
 
+    @NotBlank
     @Size(max = 100)
-    private String lastName;
-
-    @Size(max = 100)
-    @Email
-    private String email;
-
-    @Size(max = 100)
-    private String phone;
+    private String password;
 }

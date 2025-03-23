@@ -1,10 +1,10 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.entity.User;
-import com.agung.restful.model.RegisterUserRequest;
-import com.agung.restful.model.UpdateUserRequest;
-import com.agung.restful.model.UserResponse;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.request.RegisterUserRequest;
+import com.agung.restful.model.request.UpdateUserRequest;
+import com.agung.restful.model.response.UserResponse;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,8 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

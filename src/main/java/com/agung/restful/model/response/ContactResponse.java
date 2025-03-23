@@ -1,4 +1,4 @@
-package com.agung.restful.model;
+package com.agung.restful.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

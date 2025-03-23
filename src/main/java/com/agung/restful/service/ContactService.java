@@ -2,10 +2,10 @@ package com.agung.restful.service;
 
 import com.agung.restful.entity.Contact;
 import com.agung.restful.entity.User;
-import com.agung.restful.model.ContactResponse;
-import com.agung.restful.model.CreateContactRequest;
-import com.agung.restful.model.SearchContactRequest;
-import com.agung.restful.model.UpdateContactRequest;
+import com.agung.restful.model.response.ContactResponse;
+import com.agung.restful.model.request.CreateContactRequest;
+import com.agung.restful.model.request.SearchContactRequest;
+import com.agung.restful.model.request.UpdateContactRequest;
 import com.agung.restful.repository.ContactRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ContactService {

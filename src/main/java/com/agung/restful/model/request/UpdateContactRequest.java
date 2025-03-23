@@ -1,4 +1,4 @@
-package com.agung.restful.model;
+package com.agung.restful.model.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;

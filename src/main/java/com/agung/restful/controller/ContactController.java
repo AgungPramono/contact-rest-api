@@ -1,7 +1,12 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.entity.User;
-import com.agung.restful.model.*;
+import com.agung.restful.model.request.CreateContactRequest;
+import com.agung.restful.model.request.SearchContactRequest;
+import com.agung.restful.model.request.UpdateContactRequest;
+import com.agung.restful.model.response.ContactResponse;
+import com.agung.restful.model.response.PagingResponse;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +26,7 @@ public class ContactController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<ContactResponse> create(User user,@RequestBody CreateContactRequest request){
+    public WebResponse<ContactResponse> create(User user, @RequestBody CreateContactRequest request){
         ContactResponse contactResponse = contactService.create(user, request);
         return WebResponse.<ContactResponse>builder().data(contactResponse).status(true).build();
     }

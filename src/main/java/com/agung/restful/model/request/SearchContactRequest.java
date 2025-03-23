@@ -1,6 +1,5 @@
-package com.agung.restful.model;
+package com.agung.restful.model.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

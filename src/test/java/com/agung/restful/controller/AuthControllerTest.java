@@ -1,9 +1,9 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.entity.User;
-import com.agung.restful.model.LoginUserRequest;
-import com.agung.restful.model.TokenResponse;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.request.LoginUserRequest;
+import com.agung.restful.model.response.TokenResponse;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -3,10 +3,10 @@ package com.agung.restful.controller;
 import com.agung.restful.entity.Address;
 import com.agung.restful.entity.Contact;
 import com.agung.restful.entity.User;
-import com.agung.restful.model.AddressResponse;
-import com.agung.restful.model.CreateAddressRequest;
-import com.agung.restful.model.UpdateAddressRequest;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.response.AddressResponse;
+import com.agung.restful.model.request.CreateAddressRequest;
+import com.agung.restful.model.request.UpdateAddressRequest;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.repository.AddressRepository;
 import com.agung.restful.repository.ContactRepository;
 import com.agung.restful.repository.UserRepository;
@@ -22,9 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

@@ -2,10 +2,10 @@ package com.agung.restful.controller;
 
 import com.agung.restful.entity.Contact;
 import com.agung.restful.entity.User;
-import com.agung.restful.model.ContactResponse;
-import com.agung.restful.model.CreateContactRequest;
-import com.agung.restful.model.UpdateContactRequest;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.response.ContactResponse;
+import com.agung.restful.model.request.CreateContactRequest;
+import com.agung.restful.model.request.UpdateContactRequest;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.repository.ContactRepository;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

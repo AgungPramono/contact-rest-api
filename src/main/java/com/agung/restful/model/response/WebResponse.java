@@ -1,4 +1,4 @@
-package com.agung.restful.model;
+package com.agung.restful.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

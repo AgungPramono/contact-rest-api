@@ -1,6 +1,6 @@
 package com.agung.restful.controller;
 
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.response.WebResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

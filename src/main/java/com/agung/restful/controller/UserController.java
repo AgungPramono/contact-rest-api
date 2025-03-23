@@ -1,10 +1,10 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.entity.User;
-import com.agung.restful.model.RegisterUserRequest;
-import com.agung.restful.model.UpdateUserRequest;
-import com.agung.restful.model.UserResponse;
-import com.agung.restful.model.WebResponse;
+import com.agung.restful.model.request.RegisterUserRequest;
+import com.agung.restful.model.request.UpdateUserRequest;
+import com.agung.restful.model.response.UserResponse;
+import com.agung.restful.model.response.WebResponse;
 import com.agung.restful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.agung.restful.model;
+package com.agung.restful.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
+public class PagingResponse {
 
-    private String username;
-
-    private String name;
+    private Integer currentPage;
+    private Integer totalPage;
+    private Integer size;
 }
