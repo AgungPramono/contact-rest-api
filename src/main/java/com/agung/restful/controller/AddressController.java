@@ -23,7 +23,7 @@ public class AddressController {
     )
     public WebResponse<AddressResponse> create(User user,
                                                @RequestBody CreateAddressRequest request,
-                                               @PathVariable("idContact") String contactId){
+                                               @PathVariable("idContact") String contactId) {
         request.setContactId(contactId);
 
         AddressResponse addressResponse = addressService.create(user, request);
@@ -39,7 +39,7 @@ public class AddressController {
     )
     public WebResponse<AddressResponse> get(User user,
                                             @PathVariable("contactId") String contactId,
-                                            @PathVariable("addressId") String addressId){
+                                            @PathVariable("addressId") String addressId) {
         AddressResponse addressResponse = addressService.get(user, contactId, addressId);
         return WebResponse.<AddressResponse>builder()
                 .data(addressResponse)
@@ -55,13 +55,28 @@ public class AddressController {
     public WebResponse<AddressResponse> update(User user,
                                                @RequestBody UpdateAddressRequest request,
                                                @PathVariable("contactId") String contactId,
-                                               @PathVariable("addressId") String addressId){
+                                               @PathVariable("addressId") String addressId) {
         request.setContactId(contactId);
         request.setAddressId(addressId);
 
         AddressResponse addressResponse = addressService.update(user, request);
         return WebResponse.<AddressResponse>builder()
                 .data(addressResponse)
+                .status(true)
+                .build();
+    }
+
+    @DeleteMapping(
+            path = "/api/contacts/{contactId}/addresses/{addressId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> delete(User user,
+                                      @PathVariable("contactId") String contactId,
+                                      @PathVariable("addressId") String addressId) {
+
+        addressService.remove(user, contactId, addressId);
+        return WebResponse.<String>builder()
+                .data("OK")
                 .status(true)
                 .build();
     }
