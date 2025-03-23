@@ -5,6 +5,7 @@ import com.agung.restful.entity.Contact;
 import com.agung.restful.entity.User;
 import com.agung.restful.model.AddressResponse;
 import com.agung.restful.model.CreateAddressRequest;
+import com.agung.restful.model.UpdateAddressRequest;
 import com.agung.restful.model.WebResponse;
 import com.agung.restful.repository.AddressRepository;
 import com.agung.restful.repository.ContactRepository;
@@ -173,6 +174,73 @@ class AddressControllerTest {
             assertEquals(address.getProvince(),response.getData().getProvince());
             assertEquals(address.getCountry(),response.getData().getCountry());
             assertEquals(address.getPostalCode(),response.getData().getPostalCode());
+
+            assertTrue(addressRepository.existsById(response.getData().getId()));
+        });
+    }
+
+    @Test
+    void updateAddressBadRequest() throws Exception{
+
+        UpdateAddressRequest request = new UpdateAddressRequest();
+        request.setCountry("");
+
+        mockMvc.perform(
+                put("/api/contacts/test/addresses/test")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header("X-API-TOKEN","test-token")
+        ).andExpectAll(
+                status().isBadRequest()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+
+            assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void updateAddressSuccess() throws Exception{
+        Contact contact = contactRepository.findById("test").orElseThrow();
+
+        Address address = new Address();
+        address.setId("test");
+        address.setContact(contact);
+        address.setStreet("jalan kenangan");
+        address.setCity("kota baru");
+        address.setProvince("Jawa timur");
+        address.setCountry("Indonesia");
+        address.setPostalCode("96373");
+
+        addressRepository.save(address);
+
+        UpdateAddressRequest request = new UpdateAddressRequest();
+        request.setStreet("jalan kenangan baru");
+        request.setCity("kota baru banget");
+        request.setProvince("Jawa timur baru");
+        request.setCountry("Indonesia maju");
+        request.setPostalCode("963736678");
+
+        mockMvc.perform(
+                put("/api/contacts/test/addresses/test")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .header("X-API-TOKEN","test-token")
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {
+            WebResponse<AddressResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+
+            assertNull(response.getErrors());
+            assertEquals(request.getStreet(),response.getData().getStreet());
+            assertEquals(request.getCity(),response.getData().getCity());
+            assertEquals(request.getProvince(),response.getData().getProvince());
+            assertEquals(request.getCountry(),response.getData().getCountry());
+            assertEquals(request.getPostalCode(),response.getData().getPostalCode());
 
             assertTrue(addressRepository.existsById(response.getData().getId()));
         });

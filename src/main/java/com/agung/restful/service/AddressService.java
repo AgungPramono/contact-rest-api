@@ -6,6 +6,7 @@ import com.agung.restful.entity.User;
 import com.agung.restful.model.AddressResponse;
 import com.agung.restful.model.ContactResponse;
 import com.agung.restful.model.CreateAddressRequest;
+import com.agung.restful.model.UpdateAddressRequest;
 import com.agung.restful.repository.AddressRepository;
 import com.agung.restful.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,25 @@ public class AddressService {
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Address Not Found"));
 
         return toAddressResponse(addressResponse);
+    }
+
+    @Transactional
+    public AddressResponse update(User user, UpdateAddressRequest request){
+        validationService.validate(request);
+
+        Contact contact = contactRepository.findFirstByUserAndId(user, request.getContactId())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Contact Not Found"));
+
+        Address address = addressRepository.findFirstByContactAndId(contact, request.getAddressId())
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Address Not Found"));
+
+        address.setStreet(request.getStreet());
+        address.setCity(request.getCity());
+        address.setProvince(request.getProvince());
+        address.setCountry(request.getCountry());
+        address.setPostalCode(request.getPostalCode());
+
+        addressRepository.save(address);
+        return toAddressResponse(address);
     }
 }
