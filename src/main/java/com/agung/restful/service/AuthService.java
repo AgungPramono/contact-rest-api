@@ -57,14 +57,14 @@ public class AuthService {
 
 
     private Long next30Days(){
-        return System.currentTimeMillis()+(1000*16*24*30);
+        return System.currentTimeMillis()+(1000L * 60 * 60 * 24 * 30);
     }
 
     private String formatDate(Long date){
-        LocalDateTime dateTime = Instant.ofEpochMilli(date)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+        // Konversi ke LocalDateTime dengan zona waktu UTC
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.of("UTC"));
 
+        // Format tanggal
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return dateTime.format(formatter);
     }
