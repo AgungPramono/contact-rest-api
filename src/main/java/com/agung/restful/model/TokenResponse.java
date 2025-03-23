@@ -1,5 +1,7 @@
 package com.agung.restful.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +15,9 @@ public class TokenResponse {
 
     private String token;
 
+    @JsonIgnore
     private Long expiredAt;
+
+    @JsonProperty("expiredAt")
+    private String formatStringExpireAt;
 }

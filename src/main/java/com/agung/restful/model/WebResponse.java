@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WebResponse<T> {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -66,12 +66,11 @@ public class ContactController {
 
     @GetMapping(
             path = "/api/contacts",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public WebResponse<List<ContactResponse>> search(User user,
                                                      @RequestParam(value = "name",required = false) String name,
-                                                     @RequestParam(value = "emai",required = false)String email,
+                                                     @RequestParam(value = "email",required = false)String email,
                                                      @RequestParam(value = "phone",required = false)String phone,
                                                      @RequestParam(value = "page",required = false, defaultValue = "0") Integer page,
                                                      @RequestParam(value = "size",required = false,defaultValue = "10")Integer size){

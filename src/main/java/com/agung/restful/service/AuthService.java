@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Service
@@ -37,6 +41,7 @@ public class AuthService {
             return TokenResponse.builder()
                     .token(user.getToken())
                     .expiredAt(user.getTokenExpiredAt())
+                    .formatStringExpireAt(formatDate(user.getTokenExpiredAt()))
                     .build();
         }else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "username or password wrong");
@@ -53,5 +58,14 @@ public class AuthService {
 
     private Long next30Days(){
         return System.currentTimeMillis()+(1000*16*24*30);
+    }
+
+    private String formatDate(Long date){
+        LocalDateTime dateTime = Instant.ofEpochMilli(date)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
     }
 }
