@@ -11,6 +11,7 @@ import com.agung.restful.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ContactController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<ContactResponse> create(User user, @RequestBody CreateContactRequest request){
+    public WebResponse<ContactResponse> create(@AuthenticationPrincipal User user, @RequestBody CreateContactRequest request){
         ContactResponse contactResponse = contactService.create(user, request);
         return WebResponse.<ContactResponse>builder().data(contactResponse).status(true).build();
     }
@@ -35,7 +36,7 @@ public class ContactController {
             path = "/api/contacts/{contactId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<ContactResponse> getContact(User user, @PathVariable("contactId") String contactId){
+    public WebResponse<ContactResponse> getContact(@AuthenticationPrincipal User user, @PathVariable("contactId") String contactId){
         ContactResponse contactResponse = contactService.get(user, contactId);
         return WebResponse.<ContactResponse>builder()
                 .data(contactResponse)
@@ -49,7 +50,7 @@ public class ContactController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<ContactResponse> update(User user,@RequestBody UpdateContactRequest request,
+    public WebResponse<ContactResponse> update(@AuthenticationPrincipal User user,@RequestBody UpdateContactRequest request,
                                                @PathVariable("contactId")String contactId){
         request.setId(contactId);
         ContactResponse contactResponse = contactService.update(user, request);
@@ -60,7 +61,7 @@ public class ContactController {
             path = "/api/contacts/{contactId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<String> deleteContact(User user, @PathVariable("contactId") String contactId){
+    public WebResponse<String> deleteContact(@AuthenticationPrincipal User user, @PathVariable("contactId") String contactId){
         contactService.delete(user, contactId);
         return WebResponse.<String>builder()
                 .data("OK")
@@ -73,7 +74,7 @@ public class ContactController {
             path = "/api/contacts",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public WebResponse<List<ContactResponse>> search(User user,
+    public WebResponse<List<ContactResponse>> search(@AuthenticationPrincipal User user,
                                                      @RequestParam(value = "name",required = false) String name,
                                                      @RequestParam(value = "email",required = false)String email,
                                                      @RequestParam(value = "phone",required = false)String phone,

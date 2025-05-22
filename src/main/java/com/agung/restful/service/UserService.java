@@ -5,10 +5,10 @@ import com.agung.restful.model.request.RegisterUserRequest;
 import com.agung.restful.model.request.UpdateUserRequest;
 import com.agung.restful.model.response.UserResponse;
 import com.agung.restful.repository.UserRepository;
-import com.agung.restful.security.BCrypt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +25,9 @@ public class UserService {
     @Autowired
     private ValidationService validationService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public void register(RegisterUserRequest request){
 
@@ -36,7 +39,7 @@ public class UserService {
 
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(BCrypt.hashpw(request.getPassword(),BCrypt.gensalt()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setName(request.getName());
 
         userRepository.save(user);
@@ -61,7 +64,7 @@ public class UserService {
         }
 
         if (Objects.nonNull(request.getPassword())){
-            user.setPassword(BCrypt.hashpw(request.getPassword(),BCrypt.gensalt()));
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         userRepository.save(user);

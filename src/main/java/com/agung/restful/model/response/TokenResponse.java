@@ -15,9 +15,17 @@ public class TokenResponse {
 
     private String token;
 
+    private String refreshToken;
+
     @JsonIgnore
     private Long expiredAt;
 
     @JsonProperty("expiredAt")
     private String formatStringExpireAt;
+
+    @JsonIgnore
+    private Long refreshTokenExpired;
+
+    @JsonProperty("refreshTokenExpiredAt")
+    private String formatStringRefreshTokenExpireAt;
 }

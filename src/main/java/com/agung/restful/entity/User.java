@@ -23,8 +23,14 @@ public class User {
 
     private String token;
 
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
     @Column(name = "token_expired_at")
     private Long tokenExpiredAt;
+
+    @Column(name = "refresh_token_expired_at")
+    private Long refreshTokenExpiredAt;
 
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;

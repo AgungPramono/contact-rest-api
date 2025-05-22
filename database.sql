@@ -4,14 +4,18 @@ use contact_restful_api;
 
 CREATE TABLE users
 (
-    username         VARCHAR(100) NOT NULL,
-    password         VARCHAR(100) NOT NULL,
-    name             VARCHAR(100) NOT NULL,
-    token            VARCHAR(100),
-    token_expired_at BIGINT,
+    username                 VARCHAR(100) NOT NULL,
+    password                 VARCHAR(100) NOT NULL,
+    name                     VARCHAR(100) NOT NULL,
+    token                    VARCHAR(512),
+    refresh_token            VARCHAR(512),
+    token_expired_at         BIGINT,
+    refresh_token_expired_at BIGINT,
     PRIMARY KEY (username),
-    UNIQUE (token)
+    UNIQUE (token),
+    UNIQUE (refresh_token)
 ) ENGINE = InnoDB;
+
 
 select *
 from users;

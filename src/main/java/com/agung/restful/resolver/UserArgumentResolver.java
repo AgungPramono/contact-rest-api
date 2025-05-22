@@ -13,7 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.server.ResponseStatusException;
 
-@Component
+//@Component
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
