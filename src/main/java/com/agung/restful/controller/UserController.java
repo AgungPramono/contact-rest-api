@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping(
-            path = "/api/user/current",
+            path = "/api/users/current",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public WebResponse<UserResponse> get(User user){
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PatchMapping(
-            path = "/api/user/current",
+            path = "/api/users/current",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
