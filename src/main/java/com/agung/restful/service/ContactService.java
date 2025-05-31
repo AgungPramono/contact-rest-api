@@ -114,7 +114,8 @@ public class ContactService {
             return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
         };
 
-        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        int page = Math.max(request.getPage() - 1, 0);// agar halaman dimulai dari 1 dan jaga2 jika user memasukkan halaman 0
+        Pageable pageable = PageRequest.of(page, request.getSize());
         Page<Contact> contacts = contactRepository.findAll(specification, pageable);
         List<ContactResponse> contactResponses = contacts.getContent().stream()
                 .map(this::toContactResponse)

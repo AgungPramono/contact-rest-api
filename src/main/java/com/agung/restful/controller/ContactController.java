@@ -78,7 +78,7 @@ public class ContactController {
                                                      @RequestParam(value = "email",required = false)String email,
                                                      @RequestParam(value = "phone",required = false)String phone,
                                                      @RequestParam(value = "page",required = false, defaultValue = "0") Integer page,
-                                                     @RequestParam(value = "size",required = false,defaultValue = "10")Integer size){
+                                                     @RequestParam(value = "size",required = false,defaultValue = "5")Integer size){
 
         SearchContactRequest request = SearchContactRequest.builder()
                 .page(page)
@@ -92,7 +92,7 @@ public class ContactController {
         return WebResponse.<List<ContactResponse>>builder()
                 .data(contactResponses.getContent())
                 .paging(PagingResponse.builder()
-                        .currentPage(contactResponses.getNumber())
+                        .currentPage(contactResponses.getNumber()+1)
                         .totalPage(contactResponses.getTotalPages())
                         .size(contactResponses.getSize())
                         .build())
