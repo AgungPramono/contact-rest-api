@@ -2,7 +2,7 @@
 
 ## Create Contact
 
-Endpoint: POST /api/contac
+Endpoint: POST /api/contacts
 
 Request Header:
 - X-API-TOKEN : Token (Mandatory)
@@ -39,7 +39,7 @@ Response Body (failed):
 }
 ```
 ## Update Contact
-Endpoint: PUT /api/contact/{idContact}
+Endpoint: PUT /api/contacts/{idContact}
 
 Request Header:
 - X-API-TOKEN : Token (Mandatory)
@@ -76,7 +76,7 @@ Response Body (failed):
 }
 ```
 ## Get Contact
-Endpoint: GET /api/contact/{idContact}
+Endpoint: GET /api/contacts/{idContact}
 
 Request Header:
 - X-API-TOKEN : Token (Mandatory)
@@ -145,7 +145,7 @@ Response Body (failed):
 }
 ```
 ## Remove Contact
-Endpoint: DELETE /api/contact/{idContact}
+Endpoint: DELETE /api/contacts/{idContact}
 
 Request Header:
 - X-API-TOKEN : Token (Mandatory)
