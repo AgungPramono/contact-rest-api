@@ -78,7 +78,7 @@ public class ContactController {
                                                      @RequestParam(value = "email",required = false)String email,
                                                      @RequestParam(value = "phone",required = false)String phone,
                                                      @RequestParam(value = "page",required = false, defaultValue = "0") Integer page,
-                                                     @RequestParam(value = "size",required = false,defaultValue = "5")Integer size){
+                                                     @RequestParam(value = "size",required = false,defaultValue = "4")Integer size){
 
         SearchContactRequest request = SearchContactRequest.builder()
                 .page(page)
