@@ -6,6 +6,7 @@ import com.agung.restful.model.response.ContactResponse;
 import com.agung.restful.model.request.CreateContactRequest;
 import com.agung.restful.model.request.UpdateContactRequest;
 import com.agung.restful.model.response.WebResponse;
+import com.agung.restful.repository.AddressRepository;
 import com.agung.restful.repository.ContactRepository;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,16 +43,20 @@ class ContactControllerTest {
     private ContactRepository contactRepository;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        addressRepository.deleteAll();
         contactRepository.deleteAll();
         userRepository.deleteAll();
 
         User user = new User();
         user.setUsername("test");
-        user.setPassword(BCrypt.hashpw("test",BCrypt.gensalt()));
+        user.setPassword(BCrypt.hashpw("test", BCrypt.gensalt()));
         user.setName("Test");
         user.setToken("test");
         user.setTokenExpiredAt(System.currentTimeMillis() + (60 * 60 * 1000));
@@ -58,7 +64,7 @@ class ContactControllerTest {
     }
 
     @Test
-    void createContactBadRequest()throws Exception{
+    void createContactBadRequest() throws Exception {
         CreateContactRequest request = new CreateContactRequest();
         request.setFirstName("");
         request.setEmail("email salah");
@@ -68,7 +74,7 @@ class ContactControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isBadRequest()
         ).andDo(result -> {
@@ -80,7 +86,7 @@ class ContactControllerTest {
     }
 
     @Test
-    void createContactSuccess()throws Exception{
+    void createContactSuccess() throws Exception {
         CreateContactRequest request = new CreateContactRequest();
         request.setFirstName("agung");
         request.setLastName("permadi");
@@ -92,7 +98,7 @@ class ContactControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -100,10 +106,10 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals("agung",response.getData().getFirstName());
-            assertEquals("permadi",response.getData().getLastName());
-            assertEquals("08777186288",response.getData().getPhone());
-            assertEquals("agung@mail.com",response.getData().getEmail());
+            assertEquals("agung", response.getData().getFirstName());
+            assertEquals("permadi", response.getData().getLastName());
+            assertEquals("08777186288", response.getData().getPhone());
+            assertEquals("agung@mail.com", response.getData().getEmail());
 
             assertTrue(contactRepository.existsById(response.getData().getId()));
         });
@@ -115,7 +121,7 @@ class ContactControllerTest {
                 get("/api/contacts/1234")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isNotFound()
         ).andDo(result -> {
@@ -140,10 +146,10 @@ class ContactControllerTest {
         contactRepository.save(contact);
 
         mockMvc.perform(
-                get("/api/contacts/"+contact.getId())
+                get("/api/contacts/" + contact.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -151,17 +157,17 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals("contact",response.getData().getFirstName());
-            assertEquals("test",response.getData().getLastName());
-            assertEquals("contact@mail.com",response.getData().getEmail());
-            assertEquals("09876543",response.getData().getPhone());
+            assertEquals("contact", response.getData().getFirstName());
+            assertEquals("test", response.getData().getLastName());
+            assertEquals("contact@mail.com", response.getData().getEmail());
+            assertEquals("09876543", response.getData().getPhone());
 
             assertTrue(contactRepository.existsById(response.getData().getId()));
         });
     }
 
     @Test
-    void updateContactBadRequest()throws Exception{
+    void updateContactBadRequest() throws Exception {
         UpdateContactRequest request = new UpdateContactRequest();
         request.setFirstName("");
         request.setEmail("email salah");
@@ -171,7 +177,7 @@ class ContactControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isBadRequest()
         ).andDo(result -> {
@@ -183,7 +189,7 @@ class ContactControllerTest {
     }
 
     @Test
-    void UpdateContactSuccess()throws Exception{
+    void UpdateContactSuccess() throws Exception {
         User user = userRepository.findById("test").orElseThrow();
 
         Contact contact = new Contact();
@@ -203,11 +209,11 @@ class ContactControllerTest {
         request.setEmail("budi@mail.com");
 
         mockMvc.perform(
-                put("/api/contacts/"+contact.getId())
+                put("/api/contacts/" + contact.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -215,10 +221,10 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(request.getFirstName(),response.getData().getFirstName());
-            assertEquals(request.getLastName(),response.getData().getLastName());
-            assertEquals(request.getPhone(),response.getData().getPhone());
-            assertEquals(request.getEmail(),response.getData().getEmail());
+            assertEquals(request.getFirstName(), response.getData().getFirstName());
+            assertEquals(request.getLastName(), response.getData().getLastName());
+            assertEquals(request.getPhone(), response.getData().getPhone());
+            assertEquals(request.getEmail(), response.getData().getEmail());
 
             assertTrue(contactRepository.existsById(response.getData().getId()));
         });
@@ -230,7 +236,7 @@ class ContactControllerTest {
                 delete("/api/contacts/1234")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isNotFound()
         ).andDo(result -> {
@@ -242,7 +248,7 @@ class ContactControllerTest {
     }
 
     @Test
-    void deleteContactSuccess()throws Exception{
+    void deleteContactSuccess() throws Exception {
         User user = userRepository.findById("test").orElseThrow();
 
         Contact contact = new Contact();
@@ -255,10 +261,10 @@ class ContactControllerTest {
         contactRepository.save(contact);
 
         mockMvc.perform(
-                delete("/api/contacts/"+contact.getId())
+                delete("/api/contacts/" + contact.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -266,17 +272,17 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals("OK",response.getData());
+            assertEquals("OK", response.getData());
         });
     }
 
     @Test
-    void searchNotFound()throws Exception {
+    void searchNotFound() throws Exception {
         mockMvc.perform(
                 get("/api/contacts")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -284,33 +290,36 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(0,response.getData().size());
-            assertEquals(0,response.getPaging().getTotalPage());
-            assertEquals(0,response.getPaging().getCurrentPage());
-            assertEquals(10,response.getPaging().getSize());
+            assertEquals(0, response.getData().size());
+            assertEquals(0, response.getPaging().getTotalPage());
+            assertEquals(1, response.getPaging().getCurrentPage());
+            assertEquals(4, response.getPaging().getSize());
         });
     }
 
     @Test
-    void searchContactSuccess()throws Exception {
+    void searchContactSuccess() throws Exception {
         User user = userRepository.findById("test").orElseThrow();
+        List<Contact> contacts = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             Contact contact = new Contact();
             contact.setId(UUID.randomUUID().toString());
-            contact.setFirstName("agung"+i);
+            contact.setFirstName("agung" + i);
             contact.setLastName("permadi");
             contact.setEmail("agung@mail.com");
             contact.setPhone("09876543");
             contact.setUser(user);
-            contactRepository.save(contact);
+            contacts.add(contact);
         }
+        contactRepository.saveAll(contacts);
+        contacts.clear();
 
         mockMvc.perform(
                 get("/api/contacts")
-                        .queryParam("name","agung")
+                        .queryParam("name", "agung")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -318,18 +327,18 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(10,response.getData().size());
-            assertEquals(10,response.getPaging().getTotalPage());
-            assertEquals(0,response.getPaging().getCurrentPage());
-            assertEquals(10,response.getPaging().getSize());
+            assertEquals(4, response.getData().size());
+            assertEquals(25, response.getPaging().getTotalPage());
+            assertEquals(1, response.getPaging().getCurrentPage());
+            assertEquals(4, response.getPaging().getSize());
         });
 
         mockMvc.perform(
                 get("/api/contacts")
-                        .queryParam("email","mail.com")
+                        .queryParam("email", "mail.com")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -337,18 +346,18 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(10,response.getData().size());
-            assertEquals(10,response.getPaging().getTotalPage());
-            assertEquals(0,response.getPaging().getCurrentPage());
-            assertEquals(10,response.getPaging().getSize());
+            assertEquals(4, response.getData().size());
+            assertEquals(25, response.getPaging().getTotalPage());
+            assertEquals(1, response.getPaging().getCurrentPage());
+            assertEquals(4, response.getPaging().getSize());
         });
 
         mockMvc.perform(
                 get("/api/contacts")
-                        .queryParam("phone","09876")
+                        .queryParam("phone", "09876")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -356,19 +365,19 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(10,response.getData().size());
-            assertEquals(10,response.getPaging().getTotalPage());
-            assertEquals(0,response.getPaging().getCurrentPage());
-            assertEquals(10,response.getPaging().getSize());
+            assertEquals(4, response.getData().size());
+            assertEquals(25, response.getPaging().getTotalPage());
+            assertEquals(1, response.getPaging().getCurrentPage());
+            assertEquals(4, response.getPaging().getSize());
         });
 
         mockMvc.perform(
                 get("/api/contacts")
-                        .queryParam("phone","09876")
-                        .queryParam("page","1000")
+                        .queryParam("phone", "09876")
+                        .queryParam("page", "1000")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("X-API-TOKEN","test")
+                        .header("X-API-TOKEN", "test")
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
@@ -376,10 +385,10 @@ class ContactControllerTest {
             });
 
             assertNull(response.getErrors());
-            assertEquals(0,response.getData().size());
-            assertEquals(10,response.getPaging().getTotalPage());
-            assertEquals(1000,response.getPaging().getCurrentPage());
-            assertEquals(10,response.getPaging().getSize());
+            assertEquals(0, response.getData().size());
+            assertEquals(25, response.getPaging().getTotalPage());
+            assertEquals(1000, response.getPaging().getCurrentPage());
+            assertEquals(4, response.getPaging().getSize());
         });
     }
 }
