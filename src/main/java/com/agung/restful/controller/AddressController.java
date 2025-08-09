@@ -89,7 +89,7 @@ public class AddressController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public WebResponse<List<AddressResponse>> list(User user,
-                                            @PathVariable("contactId") String contactId) {
+                                                   @PathVariable("contactId") String contactId) {
         List<AddressResponse> addressResponse = addressService.list(user, contactId);
         return WebResponse.<List<AddressResponse>>builder()
                 .data(addressResponse)
