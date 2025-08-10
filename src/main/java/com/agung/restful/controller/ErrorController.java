@@ -1,6 +1,8 @@
 package com.agung.restful.controller;
 
 import com.agung.restful.model.response.WebResponse;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +23,17 @@ public class ErrorController {
     public ResponseEntity<WebResponse<String>>apiException(ResponseStatusException exception){
         return ResponseEntity.status(exception.getStatusCode())
                 .body(WebResponse.<String>builder().status(false).errors(exception.getReason()).build());
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    public ResponseEntity<WebResponse<String>>jwtException(JWTDecodeException exception){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(WebResponse.<String>builder().status(false).errors(exception.getMessage()).build());
+    }
+
+    @ExceptionHandler(SignatureVerificationException.class)
+    public ResponseEntity<WebResponse<String>>signatureException(SignatureVerificationException exception){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(WebResponse.<String>builder().status(false).errors(exception.getMessage()).build());
     }
 }

@@ -26,6 +26,9 @@ public class AuthService {
     @Autowired
     private ValidationService validationService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Transactional
     public TokenResponse login(LoginUserRequest request){
         validationService.validate(request);
@@ -34,12 +37,15 @@ public class AuthService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "username or password wrong"));
 
         if (BCrypt.checkpw(request.getPassword(), user.getPassword())){
-            user.setToken(UUID.randomUUID().toString());
-            user.setTokenExpiredAt(next30Days());
-            userRepository.save(user);
+//            user.setToken(UUID.randomUUID().toString());
+//            user.setTokenExpiredAt(next30Days());
+//            userRepository.save(user);
+
+            String token = tokenService.Create(user);
 
             return TokenResponse.builder()
-                    .token(user.getToken())
+//                    .token(user.getToken())
+                    .token(token)
                     .expiredAt(user.getTokenExpiredAt())
                     .formatStringExpireAt(formatDate(user.getTokenExpiredAt()))
                     .build();

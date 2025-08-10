@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kinerja Uji k6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+            transition: all 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .metric-table th {
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .improvement {
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+        .improvement-positive {
+            color: #047857; /* emerald-700 */
+            background-color: #d1fae5; /* emerald-100 */
+        }
+        .improvement-negative {
+            color: #be123c; /* rose-700 */
+            background-color: #ffe4e6; /* rose-100 */
+        }
+        .header-gradient {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-8 p-6 rounded-xl header-gradient text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight">Laporan Perbandingan Kinerja</h1>
+                <p class="opacity-80 mt-1">Analisis: Validasi Token Database vs. JWT</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <svg width="40" height="40" viewBox="0 0 129 122" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M42.3457 121.5C29.1337 121.5 18.4217 114.948 13.5617 104.97L0.405729 82.53L13.5617 60.09L22.5857 74.79C24.4937 78.012 28.3097 80.028 32.4497 80.028H96.5497C100.69 80.028 104.506 78.012 106.414 74.79L115.438 60.09L128.594 82.53L115.438 104.97C110.578 114.948 99.8657 121.5 86.6537 121.5H42.3457Z" fill="#A7F3D0"></path><path d="M115.438 59.4L106.414 44.7C104.506 41.478 100.69 39.462 96.5497 39.462H32.4497C28.3097 39.462 24.4937 41.478 22.5857 44.7L13.5617 59.4L0.405729 36.96L13.5617 14.52C18.4217 4.542 29.1337 -1.99999 42.3457 -1.99999H86.6537C99.8657 -1.99999 110.578 4.542 115.438 14.52L128.594 36.96L115.438 59.4Z" fill="#A7F3D0"></path></svg>
+                <span class="text-2xl font-bold">k6</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Key Improvement Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="card p-6 text-center">
+            <div class="flex items-center justify-center mx-auto h-12 w-12 rounded-full bg-emerald-100">
+                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <h4 class="text-3xl font-bold text-gray-800 mt-4">+216,2%</h4>
+            <p class="text-gray-500 mt-1">Peningkatan Throughput (reqs/s)</p>
+        </div>
+        <div class="card p-6 text-center">
+            <div class="flex items-center justify-center mx-auto h-12 w-12 rounded-full bg-emerald-100">
+                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h4 class="text-3xl font-bold text-gray-800 mt-4">-72,1%</h4>
+            <p class="text-gray-500 mt-1">Penurunan Latensi Rata-rata</p>
+        </div>
+        <div class="card p-6 text-center">
+            <div class="flex items-center justify-center mx-auto h-12 w-12 rounded-full bg-emerald-100">
+                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h4 class="text-3xl font-bold text-gray-800 mt-4">-62,3%</h4>
+            <p class="text-gray-500 mt-1">Penurunan Latensi p(95)</p>
+        </div>
+    </div>
+
+    <!-- Comparison Section -->
+    <div class="card p-6 mb-8">
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Analisis Perbandingan Visual</h3>
+        <div class="p-4 mb-6 bg-blue-50 text-blue-800 border-l-4 border-blue-500 rounded-r-lg">
+            <p class="font-semibold">Kesimpulan: Migrasi ke JWT menghasilkan <span class="font-bold">peningkatan kinerja yang sangat signifikan</span>. Throughput meningkat lebih dari 3 kali lipat, sementara latensi (waktu respons) berkurang drastis hingga lebih dari 70%. Ini menunjukkan bahwa validasi token secara lokal (JWT) jauh lebih efisien daripada melakukan panggilan ke database.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="card border p-4">
+                <canvas id="throughputComparisonChart"></canvas>
+            </div>
+            <div class="card border p-4">
+                <canvas id="p95ComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Metrics Comparison -->
+    <div class="card p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Detail Metrik Berdampingan</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 metric-table">
+                <thead class="bg-slate-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Metrik</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uji Database</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uji JWT</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                <tr class="bg-slate-50">
+                    <td colspan="3" class="px-6 py-2 font-semibold text-slate-600">HTTP Request Duration</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Rata-rata</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">11.98ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">3.34ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Min</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">1ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">0s</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Median</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">10.86ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">2.51ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Max</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">345.65ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">466.03ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">P(90)</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">19.19ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">6.41ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">P(95)</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">22.59ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">8.52ms</td>
+                </tr>
+                <tr class="bg-slate-50">
+                    <td colspan="3" class="px-6 py-2 font-semibold text-slate-600">Iteration Duration</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Rata-rata</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">12.65ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">3.97ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Min</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">1.22ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">0s</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Median</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">11.34ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">2.99ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Max</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">345.65ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">466.03ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">P(90)</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">20.11ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">7.51ms</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">P(95)</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">24.13ms</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-indigo-600 font-semibold">10.53ms</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chartOptions = (titleText, yAxisLabel) => ({
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: titleText,
+                font: { size: 16, weight: '600' },
+                color: '#334155', // slate-700
+                padding: { top: 10, bottom: 20 }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: { display: true, text: yAxisLabel },
+                grid: { color: '#e2e8f0' } // slate-200
+            },
+            x: {
+                grid: { display: false }
+            }
+        }
+    });
+
+    // Data untuk bagan perbandingan Throughput
+    const throughputCtx = document.getElementById('throughputComparisonChart').getContext('2d');
+    new Chart(throughputCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Database', 'JWT'],
+            datasets: [{
+                label: 'Throughput (reqs/s)',
+                data: [5033.47, 15916.05],
+                backgroundColor: ['#fb923c', '#6366f1'], // orange-400, indigo-500
+                borderColor: ['#f97316', '#4f46e5'], // orange-500, indigo-600
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: chartOptions('Perbandingan Throughput (Permintaan per Detik)', 'reqs / detik')
+    });
+
+    // Data untuk bagan perbandingan p95
+    const p95Ctx = document.getElementById('p95ComparisonChart').getContext('2d');
+    new Chart(p95Ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Database', 'JWT'],
+            datasets: [{
+                label: 'Latensi p(95) (ms)',
+                data: [22.59, 8.52],
+                backgroundColor: ['#fb923c', '#6366f1'],
+                borderColor: ['#f97316', '#4f46e5'],
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: chartOptions('Perbandingan Latensi Persentil ke-95 (p95)', 'Milidetik (ms)')
+    });
+</script>
+</body>
+</html>

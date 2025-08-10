@@ -21,7 +21,7 @@ export default function () {
 
     // Header yang diperlukan
     const headers = {
-        'X-API-TOKEN': '4dadd784-862e-4415-b055-8a5e6f62bb2c',
+        'X-API-TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFndW5nIiwibmFtZSI6ImFndW5nIiwiZXhwIjoxNzU3NDMyNTE0fQ.Ki3QtBG8ZWHeRHh4-4_VJHDUhRHUCkVjhKGDp2MiAtc',
         'Content-Type': 'application/json',
     };
 

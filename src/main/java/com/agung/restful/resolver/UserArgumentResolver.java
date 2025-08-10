@@ -2,6 +2,7 @@ package com.agung.restful.resolver;
 
 import com.agung.restful.entity.User;
 import com.agung.restful.repository.UserRepository;
+import com.agung.restful.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -19,6 +20,9 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return User.class.equals(parameter.getParameterType());
@@ -31,13 +35,14 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         if (token == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Unauthorized");
         }
-        User user = userRepository.findFirstByToken(token)
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Unauthorized"));
+//        User user = userRepository.findFirstByToken(token)
+//                .orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Unauthorized"));
 
+        User user = tokenService.fromToken(token);
         //cek expired
-        if (user.getTokenExpiredAt() < System.currentTimeMillis()){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Token Expired");
-        }
+//        if (user.getTokenExpiredAt() < System.currentTimeMillis()){
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Token Expired");
+//        }
 
         return user;
     }
