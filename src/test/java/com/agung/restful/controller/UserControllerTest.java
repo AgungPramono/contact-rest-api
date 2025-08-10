@@ -209,8 +209,8 @@ class UserControllerTest {
         ).andDo(result -> {
             WebResponse<String> response = objectMapper.readValue(
                     result.getResponse().getContentAsString(),
-                    new TypeReference<WebResponse<String>>() {
-            });
+                    new TypeReference<>() {
+                    });
 
             assertNotNull(response.getErrors());
 
