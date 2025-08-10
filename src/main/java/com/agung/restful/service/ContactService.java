@@ -2,10 +2,10 @@ package com.agung.restful.service;
 
 import com.agung.restful.entity.Contact;
 import com.agung.restful.entity.User;
-import com.agung.restful.model.response.ContactResponse;
 import com.agung.restful.model.request.CreateContactRequest;
 import com.agung.restful.model.request.SearchContactRequest;
 import com.agung.restful.model.request.UpdateContactRequest;
+import com.agung.restful.model.response.ContactResponse;
 import com.agung.restful.repository.ContactRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
