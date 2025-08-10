@@ -61,11 +61,11 @@ public class AddressService {
                 .build();
     }
     @Transactional(readOnly = true)
-    public AddressResponse get(User user, String contactId, String addressid){
+    public AddressResponse get(User user, String contactId, String addressId){
         Contact contact = contactRepository.findFirstByUserAndId(user, contactId)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Contact Not Found"));
 
-        Address addressResponse = addressRepository.findFirstByContactAndId(contact,addressid)
+        Address addressResponse = addressRepository.findFirstByContactAndId(contact,addressId)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Address Not Found"));
 
         return toAddressResponse(addressResponse);

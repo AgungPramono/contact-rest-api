@@ -5,6 +5,8 @@ import com.agung.restful.model.request.RegisterUserRequest;
 import com.agung.restful.model.request.UpdateUserRequest;
 import com.agung.restful.model.response.UserResponse;
 import com.agung.restful.model.response.WebResponse;
+import com.agung.restful.repository.AddressRepository;
+import com.agung.restful.repository.ContactRepository;
 import com.agung.restful.repository.UserRepository;
 import com.agung.restful.security.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,6 +19,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,10 +37,18 @@ class UserControllerTest {
     private UserRepository userRepository;
 
     @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setup() {
+        addressRepository.deleteAll();
+        contactRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -119,7 +131,7 @@ class UserControllerTest {
     @Test
     void getUserUnauthorized() throws Exception {
         mockMvc.perform(
-                get("/api/user/current")
+                get("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("X-API-TOKEN","not found")
         ).andExpectAll(
@@ -135,7 +147,7 @@ class UserControllerTest {
     @Test
     void getUserUnauthorizedTokenNotSend() throws Exception {
         mockMvc.perform(
-                get("/api/user/current")
+                get("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpectAll(
                 status().isUnauthorized()
@@ -160,7 +172,7 @@ class UserControllerTest {
         userRepository.save(user);
 
         mockMvc.perform(
-                get("/api/user/current")
+                get("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("X-API-TOKEN","test-token")
         ).andExpectAll(
@@ -180,22 +192,24 @@ class UserControllerTest {
     void getUSerTokenExpired() throws Exception {
 
         User user = new User();
-        user.setUsername("test");
+        user.setUsername("test-expired");
         user.setPassword(BCrypt.hashpw("rahasia",BCrypt.gensalt()));
-        user.setToken("test-token");
-        user.setTokenExpiredAt(System.currentTimeMillis()-1000000000L);
+        user.setToken("test-token-expired");
+        user.setTokenExpiredAt(Instant.now().minusSeconds(60).toEpochMilli());
         user.setName("Test");
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         mockMvc.perform(
-                get("/api/user/current")
+                get("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("X-API-TOKEN","test-token")
         ).andExpectAll(
                 status().isUnauthorized()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            WebResponse<String> response = objectMapper.readValue(
+                    result.getResponse().getContentAsString(),
+                    new TypeReference<WebResponse<String>>() {
             });
 
             assertNotNull(response.getErrors());
@@ -209,7 +223,7 @@ class UserControllerTest {
 
 
         mockMvc.perform(
-                patch("/api/user/current")
+                patch("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -238,7 +252,7 @@ class UserControllerTest {
         request.setPassword("rahasia12345");
 
         mockMvc.perform(
-                patch("/api/user/current")
+                patch("/api/users/current")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
