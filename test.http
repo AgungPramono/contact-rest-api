@@ -1,0 +1,25 @@
+### Register User
+
+POST http://localhost:8080/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "agung",
+  "username": "agung",
+  "password": "rahasia"
+}
+
+### Login User
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "agung",
+  "password": "rahasia"
+}
+
+### Hello User
+GET http://localhost:8080/api/hello
+X-API-TOKEN:4dadd784-862e-4415-b055-8a5e6f62bb2c

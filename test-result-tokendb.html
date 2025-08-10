@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kinerja Uji k6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .stat-value {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 700;
+            color: #111827;
+        }
+        .stat-label {
+            font-size: 0.875rem; /* 14px */
+            color: #6b7280;
+        }
+        .metric-table th {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Laporan Kinerja Uji k6</h1>
+                <p class="text-gray-500 mt-1">Dihasilkan pada: 10 Agustus 2025</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg width="40" height="40" viewBox="0 0 129 122" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M42.3457 121.5C29.1337 121.5 18.4217 114.948 13.5617 104.97L0.405729 82.53L13.5617 60.09L22.5857 74.79C24.4937 78.012 28.3097 80.028 32.4497 80.028H96.5497C100.69 80.028 104.506 78.012 106.414 74.79L115.438 60.09L128.594 82.53L115.438 104.97C110.578 114.948 99.8657 121.5 86.6537 121.5H42.3457Z" fill="#76B82A"></path><path d="M115.438 59.4L106.414 44.7C104.506 41.478 100.69 39.462 96.5497 39.462H32.4497C28.3097 39.462 24.4937 41.478 22.5857 44.7L13.5617 59.4L0.405729 36.96L13.5617 14.52C18.4217 4.542 29.1337 -1.99999 42.3457 -1.99999H86.6537C99.8657 -1.99999 110.578 4.542 115.438 14.52L128.594 36.96L115.438 59.4Z" fill="#76B82A"></path></svg>
+                <span class="text-2xl font-bold text-gray-700">k6</span>
+            </div>
+        </div>
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h2 class="text-lg font-semibold text-blue-800">Detail Eksekusi</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2 text-sm text-gray-700">
+                <div><strong>Script:</strong> script.js</div>
+                <div><strong>Eksekusi:</strong> local</div>
+                <div><strong>Target URL:</strong> http://localhost:8080/api/hello</div>
+                <div><strong>Durasi Uji:</strong> 70 detik</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ringkasan Hasil -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between">
+                    <span class="stat-label">Total Permintaan</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </div>
+                <p class="stat-value">352.363</p>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">5033,47 reqs/s</p>
+        </div>
+        <div class="card p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between">
+                    <span class="stat-label">Durasi Req (rata-rata)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <p class="stat-value">11,98 ms</p>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">p(95) @ 22,59 ms</p>
+        </div>
+        <div class="card p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between">
+                    <span class="stat-label">Permintaan Gagal</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                </div>
+                <p class="stat-value">0,00%</p>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">0 dari 352.363</p>
+        </div>
+        <div class="card p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between">
+                    <span class="stat-label">Total Pengecekan</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <p class="stat-value">1.057.089</p>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">100% Berhasil</p>
+        </div>
+    </div>
+
+    <!-- Detail Metrik -->
+    <div class="card p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Detail Metrik</h3>
+
+        <!-- Thresholds -->
+        <div class="mb-6">
+            <h4 class="font-semibold text-lg text-gray-700 mb-2">Ambang Batas (Thresholds)</h4>
+            <div class="space-y-2">
+                <div class="flex items-center p-3 bg-green-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    <span class="text-green-800 font-medium">http_req_duration: 'p(95)&lt;500' terpenuhi (p95=22.59ms)</span>
+                </div>
+                <div class="flex items-center p-3 bg-green-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    <span class="text-green-800 font-medium">http_req_failed: 'rate&lt;0.1' terpenuhi (rate=0.00%)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checks -->
+        <div class="mb-6">
+            <h4 class="font-semibold text-lg text-gray-700 mb-2">Pengecekan (Checks)</h4>
+            <div class="space-y-2 mb-4">
+                <div class="flex items-center p-3 bg-blue-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    <span class="text-blue-800">status is 200</span>
+                </div>
+                <div class="flex items-center p-3 bg-blue-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    <span class="text-blue-800">response time &lt; 500ms</span>
+                </div>
+                <div class="flex items-center p-3 bg-blue-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    <span class="text-blue-800">has valid response</span>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 metric-table">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Metrik Pengecekan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Berhasil</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gagal</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tingkat Keberhasilan</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">Total Pengecekan</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">1.057.089</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">1.057.089</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">0</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">100.00%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tabel Metrik -->
+        <div class="mb-6">
+            <h4 class="font-semibold text-lg text-gray-700 mb-2">Statistik Durasi (ms)</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 metric-table">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Metrik</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rata-rata</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Min</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Median</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Max</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">P(90)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">P(95)</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">http_req_duration</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">11.98ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">1ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">10.86ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">345.65ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">19.19ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">22.59ms</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">iteration_duration</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">12.65ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">1.22ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">11.34ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">345.65ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">20.11ms</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">24.13ms</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Metrik Lainnya -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-gray-600">Virtual Users</h4>
+                <p class="text-2xl font-bold text-gray-800 mt-1">1 - 99 <span class="text-base font-normal text-gray-500">(max: 100)</span></p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-gray-600">Data Diterima</h4>
+                <p class="text-2xl font-bold text-gray-800 mt-1">76 MB <span class="text-base font-normal text-gray-500">(1.1 MB/s)</span></p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-gray-600">Data Terkirim</h4>
+                <p class="text-2xl font-bold text-gray-800 mt-1">57 MB <span class="text-base font-normal text-gray-500">(815 kB/s)</span></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
