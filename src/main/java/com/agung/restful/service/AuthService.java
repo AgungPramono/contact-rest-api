@@ -55,9 +55,12 @@ public class AuthService {
 
     @Transactional
     public void logout(User user){
+
+        tokenService.deleteToken( user.getToken());
+
         user.setToken(null);
         user.setTokenExpiredAt(null);
-        userRepository.save(user);
+//        userRepository.save(user);
     }
 
 
