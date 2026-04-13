@@ -1,5 +1,6 @@
 package com.agung.restful.service;
 
+import com.agung.restful.entity.Token;
 import com.agung.restful.entity.User;
 import com.agung.restful.model.request.LoginUserRequest;
 import com.agung.restful.model.response.TokenResponse;
@@ -29,24 +30,23 @@ public class AuthService {
     private TokenService tokenService;
 
     @Transactional
-    public TokenResponse login(LoginUserRequest request){
+    public TokenResponse login(LoginUserRequest request) {
         validationService.validate(request);
 
-        User user = userRepository.findById(request.getUserName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "username or password wrong"));
+        User user = userRepository.findById(request.getUserName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "username or password wrong"));
 
-        if (BCrypt.checkpw(request.getPassword(), user.getPassword())){
+        if (BCrypt.checkpw(request.getPassword(), user.getPassword())) {
 //            user.setToken(UUID.randomUUID().toString());
 //            user.setTokenExpiredAt(next30Days());
 //            userRepository.save(user);
 
-            String token = tokenService.Create(user);
+            Token token = tokenService.Create(user);
 
             return TokenResponse.builder()
 //                    .token(user.getToken())
-                    .token(token)
-                    .expiredAt(user.getTokenExpiredAt())
-                    .formatStringExpireAt(formatDate(user.getTokenExpiredAt()))
+                    .token(token.getToken())
+                    .expiredAt(token.getExpiredAt())
+                    .formatStringExpireAt(formatDate(token.getExpiredAt()))
                     .build();
         }else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "username or password wrong");
@@ -54,9 +54,9 @@ public class AuthService {
     }
 
     @Transactional
-    public void logout(User user){
+    public void logout(User user) {
 
-        tokenService.deleteToken( user.getToken());
+        tokenService.deleteToken(user.getToken());
 
         user.setToken(null);
         user.setTokenExpiredAt(null);
@@ -64,11 +64,14 @@ public class AuthService {
     }
 
 
-    private Long next30Days(){
-        return System.currentTimeMillis()+(1000L * 60 * 60 * 24 * 30);
+    private Long next30Days() {
+        return System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 30);
     }
 
-    private String formatDate(Long date){
+    private String formatDate(Long date) {
+        if (date == null) {
+            return "";
+        }
         // Konversi ke LocalDateTime dengan zona waktu UTC
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.of("UTC"));
 

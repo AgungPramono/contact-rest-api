@@ -1,5 +1,6 @@
 package com.agung.restful.service;
 
+import com.agung.restful.entity.Token;
 import com.agung.restful.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 
 @Service
 public class TokenService {
@@ -23,23 +26,27 @@ public class TokenService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    public String Create(User user){
-        String token =  JWT.create()
+    public Token Create(User user) {
+
+        Date expiredAt = Date.from(Instant.now().plus(Duration.ofDays(30)));
+
+        String token = JWT.create()
                 .withClaim("username", user.getUsername())
                 .withClaim("name", user.getName())
-                .withExpiresAt(java.util.Date.from(java.time.Instant.now().plus(Duration.ofDays(30))))//expired 30 hari
+                .withExpiresAt(expiredAt)//expired 30 hari
                 .sign(algorithm);
 
         //simpan token ke redis
-        redisTemplate.opsForValue().set(token, user.getUsername(),Duration.ofDays(30));
-        return token;
+        redisTemplate.opsForValue().set(token, user.getUsername(), Duration.ofDays(30));
+
+        return Token.builder().token(token).expiredAt(expiredAt.getTime()).build();
     }
 
-    public User fromToken(String token){
+    public User fromToken(String token) {
 
         //cek token ada atau tidak di redis
-        if(!redisTemplate.hasKey(token)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Token expired");
+        if (!redisTemplate.hasKey(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token expired");
         }
 
         DecodedJWT jwt = verifier.verify(token);
@@ -53,7 +60,7 @@ public class TokenService {
         return user;
     }
 
-    public void deleteToken(String token){
+    public void deleteToken(String token) {
         redisTemplate.delete(token);
     }
 
